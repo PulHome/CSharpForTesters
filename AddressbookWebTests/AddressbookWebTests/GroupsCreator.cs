@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using AddressbookWebTests;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -12,6 +13,7 @@ namespace SeleniumTests
     [TestFixture]
     public class Newgroup
     {
+        private const string Url = "http://localhost/addressbook/edit.php";
         private IWebDriver driver;
         private StringBuilder verificationErrors;
         private string baseURL;
@@ -21,7 +23,7 @@ namespace SeleniumTests
         public void SetupTest()
         {
             driver = new ChromeDriver();
-            baseURL = "https://www.localhost.com/";
+            baseURL = "https://www.yandex.com/";
             verificationErrors = new StringBuilder();
         }
 
@@ -40,29 +42,58 @@ namespace SeleniumTests
         }
 
         [Test]
-        public void TheNewgroupTest()
+        public void SeleniumFirstTest()
         {
-            driver.Navigate().GoToUrl("http://localhost/addressbook/edit.php");
-            driver.FindElement(By.Name("user")).Clear();
-            driver.FindElement(By.Name("user")).SendKeys("admin");
-            driver.FindElement(By.Name("pass")).Clear();
-            driver.FindElement(By.Name("pass")).SendKeys("secret");
-            driver.FindElement(By.Id("LoginForm")).Submit();
+            String userName = "Admin";
+            String psw = "secret";
+            var myGroup = new GroupTestDetails();
+            driver.Navigate().GoToUrl(Url);
+            LogMeIn(userName, psw);
             driver.FindElement(By.LinkText("groups")).Click();
             driver.FindElement(By.Id("content")).Click();
             driver.FindElement(By.Name("new")).Click();
-            driver.FindElement(By.Name("group_name")).Click();
-            driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys("asdasdasda");
-            driver.FindElement(By.Name("group_header")).Click();
-            driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys("asdasdasd");
-            driver.FindElement(By.Name("group_footer")).Click();
-            driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys("asdasdasd");
+            CreateGroup(myGroup.GroupName);
+            CreateHeader(myGroup.HeaderText);
+            CreateFooter(myGroup.FooterText);
             driver.FindElement(By.Name("submit")).Click();
+            Logout();
+        }
+
+        private void Logout()
+        {
             driver.FindElement(By.LinkText("Logout")).Click();
         }
+
+        private void CreateFooter(String footerText)
+        {
+            driver.FindElement(By.Name("group_footer")).Click();
+            driver.FindElement(By.Name("group_footer")).Clear();
+            driver.FindElement(By.Name("group_footer")).SendKeys(footerText);
+        }
+
+        private void CreateHeader(String headerText)
+        {
+            driver.FindElement(By.Name("group_header")).Click();
+            driver.FindElement(By.Name("group_header")).Clear();
+            driver.FindElement(By.Name("group_header")).SendKeys(headerText);
+        }
+
+        private void CreateGroup(String groupName)
+        {
+            driver.FindElement(By.Name("group_name")).Click();
+            driver.FindElement(By.Name("group_name")).Clear();
+            driver.FindElement(By.Name("group_name")).SendKeys(groupName);
+        }
+
+        private void LogMeIn(String name, String psw)
+        {
+            driver.FindElement(By.Name("user")).Clear();
+            driver.FindElement(By.Name("user")).SendKeys(name);
+            driver.FindElement(By.Name("pass")).Clear();
+            driver.FindElement(By.Name("pass")).SendKeys(psw);
+            driver.FindElement(By.Id("LoginForm")).Submit();
+        }
+
         private bool IsElementPresent(By by)
         {
             try
