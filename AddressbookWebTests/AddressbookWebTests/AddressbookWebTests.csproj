@@ -49,10 +49,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContactInfo.cs" />
     <Compile Include="GroupTestDetails.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GroupsCreator.cs" />
+    <Compile Include="CreateAContact.cs" />
+    <Compile Include="UserName.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
