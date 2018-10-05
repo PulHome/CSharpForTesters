@@ -1,6 +1,6 @@
-﻿namespace SeleniumTests
+﻿namespace AddressbookWebTests
 {
-    internal class UserName
+    public class UserName
     {
         public string Name { set; get; }
         public string Pass { set; get; }

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AddressbookWebTests.UserName" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserName.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AddressbookWebTests.GroupInfo" Collapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAACAAAAAAAE=</HashCode>
+      <FileName>GroupTestDetails.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AddressbookWebTests.GroupsCreator">
+    <Position X="1" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAEA=</HashCode>
+      <FileName>GroupsCreator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AddressbookWebTests.ContactCreator" Collapsed="true">
+    <Position X="4.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ContactCreator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AddressbookWebTests.ContactInfo" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>ContactInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AddressbookWebTests.BaseTest" Collapsed="true">
+    <Position X="2.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAIAQAAAAAAAAgABLAAAAABAAEAAAAQAQAACQ=</HashCode>
+      <FileName>BaseTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

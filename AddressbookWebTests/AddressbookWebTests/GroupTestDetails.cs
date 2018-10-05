@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace AddressbookWebTests
 {
-    class GroupTestDetails
+    public class GroupInfo
     {
 
         public String GroupName { set; get; }
         public String HeaderText { set; get; }
         public String FooterText { set; get; }
 
-        public GroupTestDetails(string name = "The Big 5", string header = "SomeHeaderText", string footer = "SomeFooterText")
+        public GroupInfo(string name = "The Big 5", string header = "SomeHeaderText", string footer = "SomeFooterText")
         {
             GroupName = name;
             HeaderText = header;
