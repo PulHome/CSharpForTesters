@@ -16,12 +16,12 @@ namespace AddressbookWebTests
         [Test]
         public void CreateAContact()
         {
-            baseURL = @"http://localhost/addressbook/";
-            driver.Navigate().GoToUrl(baseURL);
-            LogMeIn(new UserName("admin", "secret"));
-            OpenNewContactPage();
-            FillinContactData(new ContactInfo("TheFirstName", "TheLastName"));
-            Logout();
+            String baseURL = @"http://localhost/addressbook/";
+            app.Nav.OpenUrl(baseURL);
+            app.Auth.LogMeIn(new UserName("admin", "secret"));
+            app.Nav.OpenNewContactPage();
+            app.ContactsWorker.FillinContactData(new ContactInfo("TheFirstName", "TheLastName"));
+            app.Auth.Logout();
         }
 
     }
