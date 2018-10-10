@@ -10,7 +10,7 @@ namespace AddressbookWebTests
     public class NavigationHelper : HelperBase
     {
         
-        public NavigationHelper(IWebDriver driver) : base(driver) { }
+        public NavigationHelper(ApplicationManager app) : base(app) { }
 
         public void OpenNewContactPage()
         {

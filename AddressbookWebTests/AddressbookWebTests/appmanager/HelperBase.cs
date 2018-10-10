@@ -11,9 +11,9 @@ namespace AddressbookWebTests
     {
         protected IWebDriver driver;
 
-        public HelperBase(IWebDriver driver)
+        public HelperBase(ApplicationManager app)
         {
-            this.driver = driver;
+            this.driver = app.Driver;
         }
     }
 }

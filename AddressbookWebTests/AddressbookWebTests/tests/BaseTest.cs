@@ -11,11 +11,16 @@ namespace AddressbookWebTests
         public void SetupTest()
         {
             app = new ApplicationManager();
+            String baseURL = @"http://localhost/addressbook/";
+
+            app.Nav.OpenUrl(baseURL);
+            app.Auth.LogMeIn(new UserName("admin", "secret"));
         }
 
         [TearDown]
         public void TeardownTest()
         {
+            app.Auth.Logout();
             app.Stop();
         }
     }

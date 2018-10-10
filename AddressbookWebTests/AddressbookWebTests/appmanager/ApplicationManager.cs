@@ -27,15 +27,16 @@ namespace AddressbookWebTests
             driver = new ChromeDriver();
             baseURL = "http://localhost/addressbook/";
             verificationErrors = new StringBuilder();
-            loginHelper = new LoginHelper(driver);
-            navigationHelper = new NavigationHelper(driver);
-            groupHelper = new GroupHelper(driver);
-            contactsHelper = new ContactsHelper(driver);
+            loginHelper = new LoginHelper(this);
+            navigationHelper = new NavigationHelper(this);
+            groupHelper = new GroupHelper(this);
+            contactsHelper = new ContactsHelper(this);
         }
         public NavigationHelper Nav { get { return navigationHelper; } }
         public LoginHelper Auth { get { return loginHelper; } }
         public GroupHelper GroupWorker { get { return groupHelper; } }
         public ContactsHelper ContactsWorker { get { return contactsHelper; } }
 
+        public IWebDriver Driver { get { return this.driver; } }
     }
 }

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
+﻿using NUnit.Framework;
+
 
 namespace AddressbookWebTests
 {
@@ -14,15 +8,22 @@ namespace AddressbookWebTests
     {
 
         [Test]
-        public void CreateAContact()
+        public void CreateContact()
         {
-            String baseURL = @"http://localhost/addressbook/";
-            app.Nav.OpenUrl(baseURL);
-            app.Auth.LogMeIn(new UserName("admin", "secret"));
             app.Nav.OpenNewContactPage();
             app.ContactsWorker.FillinContactData(new ContactInfo("TheFirstName", "TheLastName"));
-            app.Auth.Logout();
         }
-
+        [Test]
+        public void DeleteContact()
+        {
+            app.Nav.OpenHomePage();
+            app.ContactsWorker.Delete(2);
+        }
+        [Test]
+        public void EditContact()
+        {
+            app.Nav.OpenHomePage();
+            app.ContactsWorker.Edit(3, new ContactInfo("TheFirstNameNEW", "TheLastNameNEW"));
+        }
     }
 }

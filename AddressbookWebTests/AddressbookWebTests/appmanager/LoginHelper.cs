@@ -9,7 +9,7 @@ namespace AddressbookWebTests
 {
     public class LoginHelper : HelperBase
     {
-        public LoginHelper(IWebDriver driver) : base(driver) { }
+        public LoginHelper(ApplicationManager app) : base(app) { }
 
         public void LogMeIn(UserName user)
         {

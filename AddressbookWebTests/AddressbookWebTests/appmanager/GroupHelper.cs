@@ -10,7 +10,7 @@ namespace AddressbookWebTests
     public class GroupHelper : HelperBase
     {
 
-        public GroupHelper(IWebDriver driver) : base(driver) { }
+        public GroupHelper(ApplicationManager app) : base(app) { }
 
         public void CreateGroupWithInfo(GroupInfo myGroup)
         {
@@ -45,6 +45,11 @@ namespace AddressbookWebTests
             driver.FindElement(By.LinkText("groups")).Click();
             driver.FindElement(By.Id("content")).Click();
             driver.FindElement(By.Name("new")).Click();
+        }
+        public void Create(GroupInfo info)
+        {
+            AddNewGroup();
+            CreateGroupWithInfo(info);
         }
     }
 }
