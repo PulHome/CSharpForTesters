@@ -6,18 +6,22 @@ namespace AddressbookWebTests
     [TestFixture]
     public class ContactCreator : BaseTest
     {
-
-        [Test]
-        public void CreateContact()
+        [TestCase(null)]
+        public void CreateContact(ContactInfo cInf = null)
         {
+            if (cInf == null)
+            {
+                cInf = new ContactInfo("TheFirstName", "TheLastName");
+            }
             app.Nav.OpenNewContactPage();
-            app.ContactsWorker.FillinContactData(new ContactInfo("TheFirstName", "TheLastName"));
+            app.ContactsWorker.FillinContactData(cInf);
         }
         [Test]
         public void DeleteContact()
         {
+            CreateContact();
             app.Nav.OpenHomePage();
-            app.ContactsWorker.Delete(2);
+            app.ContactsWorker.Delete(-1);
         }
         [Test]
         public void EditContact()

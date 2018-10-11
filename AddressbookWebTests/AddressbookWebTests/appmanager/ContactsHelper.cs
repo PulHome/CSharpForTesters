@@ -1,9 +1,6 @@
 ﻿using OpenQA.Selenium;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace AddressbookWebTests
 {
@@ -21,18 +18,26 @@ namespace AddressbookWebTests
             driver.FindElement(By.XPath("//*[@id=\"content\"]/form/input[@type=\'submit\']")).Click();
         }
 
+
+        // Deletes Contact by Id or last one if "-1" is provided
         public void Delete(int contactId)
         {
-            // ID Выдаются по-порядку. Надо писать более сложный тест, который создает контакт, сохраняет ID и его потом удаляет по ID, 
-            // который карантированно присутствует. :( Это имелось ввиду? В лекциях специалдьно не было?
-            try
+            if (contactId == -1)
             {
-                driver.FindElement(By.Id(contactId.ToString())).Click();
+                driver.FindElement(By.XPath(@"(//tr[@name='entry']//input[@type='checkbox'])[last()]")).Click();
             }
-            catch (NoSuchElementException ex)
+            else
             {
-                Console.WriteLine(ex.ToString());
-                return;
+                try
+                {
+                    driver.FindElement(By.Id(contactId.ToString())).Click();
+                }
+                catch (NoSuchElementException ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    //Assert.Fail();
+                    return;
+                }
             }
 
             driver.FindElement(By.XPath(@".//input[@onclick='DeleteSel()']")).Click();
@@ -40,6 +45,7 @@ namespace AddressbookWebTests
         }
         public void Edit(int contactId, ContactInfo data)
         {
+            
             try
             {
                 driver.FindElement(By.XPath(String.Format(@"//*[@id='maintable']/tbody/.//a[@href='edit.php?id={0}']", contactId.ToString()))).Click();
@@ -52,5 +58,6 @@ namespace AddressbookWebTests
             }
             FillinContactData(data);
         }
+        
     }
 }
