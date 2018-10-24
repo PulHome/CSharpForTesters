@@ -9,12 +9,8 @@ namespace AddressbookWebTests
         public ContactsHelper(ApplicationManager app) : base(app) { }
         public void FillinContactData(ContactInfo contact)
         {
-            driver.FindElement(By.Name("firstname")).Click();
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.FirstName);
-            driver.FindElement(By.Name("lastname")).Click();
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contact.LastName);
+            TypeText(By.Name("firstname"), contact.FirstName);
+            TypeText(By.Name("lastname"), contact.LastName);
             driver.FindElement(By.XPath("//*[@id=\"content\"]/form/input[@type=\'submit\']")).Click();
         }
 
@@ -28,21 +24,25 @@ namespace AddressbookWebTests
             }
             else
             {
-                try
-                {
+                if (IsElementPresent(By.Id(contactId.ToString())))
+                { 
                     driver.FindElement(By.Id(contactId.ToString())).Click();
-                }
-                catch (NoSuchElementException ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                    //Assert.Fail();
-                    return;
                 }
             }
 
             driver.FindElement(By.XPath(@".//input[@onclick='DeleteSel()']")).Click();
             driver.SwitchTo().Alert().Accept();
         }
+
+        public bool CheckAtLeastOneContactExists()
+        {
+            if(IsElementPresent(By.XPath(@"//tr//td/input[@type='checkbox'][1]")))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public void Edit(int contactId, ContactInfo data)
         {
             

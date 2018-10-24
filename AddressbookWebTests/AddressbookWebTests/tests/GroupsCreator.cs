@@ -5,14 +5,13 @@ using NUnit.Framework;
 namespace AddressbookWebTests
 {
     [TestFixture]
-    public class GroupsCreator : BaseTest
+    public class GroupsCreator : AuthTestBase
     {
         [Test]
         public void CreateAGroup()
         {
             app.GroupWorker.OpenAddNewGroupMenu();
             app.GroupWorker.CreateGroupWithInfo(new GroupInfo("name", "header", "footer"));
-            
         }
         [Test]
         public void CreateAnEmptyGroup()
@@ -24,8 +23,13 @@ namespace AddressbookWebTests
         [Test]
         public void DeleteGroup()
         {
-            app.GroupWorker.OpenAddNewGroupMenu();
-            app.GroupWorker.CreateGroupWithInfo(new GroupInfo("name", "header", "footer"));
+            app.Nav.OpenGroupsPage();
+
+            if (!app.GroupWorker.CheckAtLeastOneGropExists())
+            {
+                app.GroupWorker.OpenAddNewGroupMenu();
+                app.GroupWorker.CreateGroupWithInfo(new GroupInfo("name", "header", "footer"));
+            }
             app.Nav.OpenGroupsPage();
             app.GroupWorker.DeleteGroup(-1);
         }

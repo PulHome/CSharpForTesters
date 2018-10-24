@@ -1,11 +1,11 @@
 ﻿namespace AddressbookWebTests
 {
-    public class UserName
+    public class AccountInfo
     {
         public string Name { set; get; }
         public string Pass { set; get; }
 
-        public UserName(string name, string pass)
+        public AccountInfo(string name, string pass)
         {
             this.Name = name;
             this.Pass = pass;

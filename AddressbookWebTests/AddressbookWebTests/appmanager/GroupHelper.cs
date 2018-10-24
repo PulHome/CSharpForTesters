@@ -18,13 +18,21 @@ namespace AddressbookWebTests
             CreateHeader(myGroup.HeaderText);
             CreateFooter(myGroup.FooterText);
             driver.FindElement(By.Name("submit")).Click();
+            driver.FindElement(By.LinkText("group page")).Click();
         }
 
         public void CreateFooter(String footerText)
         {
-            driver.FindElement(By.Name("group_footer")).Click();
-            driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(footerText);
+            TypeText(By.Name("group_footer"), footerText);
+        }
+
+        public bool CheckAtLeastOneGropExists()
+        {
+            if (IsElementPresent(By.XPath(@"//form/input[@name='new'][1]/following-sibling::span[@class='group']")))
+            {
+                return true;
+            }
+            return false;
         }
 
         internal void DeleteGroup(int id)
@@ -39,22 +47,18 @@ namespace AddressbookWebTests
                 return;
             }
             driver.FindElement(By.Name("delete")).Click();
-
         }
 
         public void CreateHeader(String headerText)
         {
-            driver.FindElement(By.Name("group_header")).Click();
-            driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(headerText);
+            TypeText(By.Name("group_header"), headerText);
         }
 
         public void CreateGroup(String groupName)
         {
-            driver.FindElement(By.Name("group_name")).Click();
-            driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(groupName);
+            TypeText(By.Name("group_name"), groupName);
         }
+
         public void OpenAddNewGroupMenu()
         {
             driver.FindElement(By.LinkText("groups")).Click();

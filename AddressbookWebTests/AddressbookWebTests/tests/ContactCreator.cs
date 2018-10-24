@@ -4,7 +4,7 @@
 namespace AddressbookWebTests
 {
     [TestFixture]
-    public class ContactCreator : BaseTest
+    public class ContactCreator : AuthTestBase
     {
         [TestCase(null)]
         public void CreateContact(ContactInfo cInf = null)
@@ -19,7 +19,12 @@ namespace AddressbookWebTests
         [Test]
         public void DeleteContact()
         {
-            CreateContact();
+            app.Nav.OpenHomePage();
+
+            if (!app.ContactsWorker.CheckAtLeastOneContactExists())
+            {
+                CreateContact();
+            }
             app.Nav.OpenHomePage();
             app.ContactsWorker.Delete(-1);
         }

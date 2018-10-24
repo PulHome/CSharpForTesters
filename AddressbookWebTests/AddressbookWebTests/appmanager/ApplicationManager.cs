@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Text;
-
+using System.Threading;
 
 namespace AddressbookWebTests
 {
@@ -15,14 +15,31 @@ namespace AddressbookWebTests
 
         protected IWebDriver driver;
         protected StringBuilder verificationErrors;
-        protected string baseURL;
+        public string baseURL { get; private set; }
 
-        public void Stop()
+        private static ThreadLocal<ApplicationManager> instance = new ThreadLocal<ApplicationManager>();
+
+
+        ~ApplicationManager()
         {
-            driver.Quit();
+            try { driver.Quit(); }
+            catch { }
+        }
+        public static ApplicationManager GetInstance(String baseURL = "http://localhost/addressbook/")
+        {
+            if (!instance.IsValueCreated)
+            {
+                ApplicationManager app = new ApplicationManager();
+                app.baseURL = baseURL;
+                app.Nav.OpenUrl(baseURL);
+                //app.Auth.LogMeIn(new UserName("admin", "secret"));
+
+                instance.Value = app;
+            }
+            return instance.Value;
         }
 
-        public ApplicationManager(String baseURL= "http://localhost/addressbook/")
+        private ApplicationManager(String baseURL = "http://localhost/addressbook/")
         {
             driver = new ChromeDriver();
             baseURL = "http://localhost/addressbook/";

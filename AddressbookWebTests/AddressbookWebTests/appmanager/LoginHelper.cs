@@ -11,17 +11,38 @@ namespace AddressbookWebTests
     {
         public LoginHelper(ApplicationManager app) : base(app) { }
 
-        public void LogMeIn(UserName user)
+        public void LogMeIn(AccountInfo user)
         {
-            driver.FindElement(By.Name("user")).Clear();
-            driver.FindElement(By.Name("user")).SendKeys(user.Name);
-            driver.FindElement(By.Name("pass")).Clear();
-            driver.FindElement(By.Name("pass")).SendKeys(user.Pass);
+            if (IsLoggedIn())
+            {
+                if (IsLoggedIn(user))
+                {
+                    return;
+                }
+                Logout();
+            }
+            TypeText(By.Name("user"), user.Name);
+            TypeText(By.Name("pass"), user.Pass);
             driver.FindElement(By.Id("LoginForm")).Submit();
         }
+
+        public bool IsLoggedIn()
+        {
+            return IsElementPresent(By.Name("logout"));
+        }
+
+        public bool IsLoggedIn(AccountInfo account)
+        {
+            return IsLoggedIn() && driver.FindElement(By.Name("logout"))
+                .FindElement(By.TagName("b")).Text == $"({account.Name})";
+        }
+
         public void Logout()
         {
-            driver.FindElement(By.LinkText("Logout")).Click();
+            if (IsLoggedIn())
+            {
+                driver.FindElement(By.LinkText("Logout")).Click();
+            }
         }
     }
 }
