@@ -25,7 +25,7 @@ namespace AddressbookWebTests
             else
             {
                 if (IsElementPresent(By.Id(contactId.ToString())))
-                { 
+                {
                     driver.FindElement(By.Id(contactId.ToString())).Click();
                 }
             }
@@ -34,9 +34,31 @@ namespace AddressbookWebTests
             driver.SwitchTo().Alert().Accept();
         }
 
+        public void Modify(int contactId, ContactInfo modifiedContact)
+        {
+            if (contactId == -1)
+            {
+                driver.FindElement(By.XPath("//tr[@name='entry']//input[@type='checkbox'][last()]/parent::*/following-sibling::*//a[contains(@href,'edit.php')]"))
+     .Click();
+            }
+            else
+            {
+                if (IsElementPresent(By.Id(contactId.ToString())))
+                {
+                    driver.FindElement(By.XPath("//tr[@name='entry']//input[@type='checkbox'][last()]/parent::*/following-sibling::*//a[contains(@href,'edit.php?id='" + contactId.ToString() + ")]"))
+     .Click();
+                }
+            }
+
+
+            TypeText(By.Name("firstname"), modifiedContact.FirstName);
+            TypeText(By.Name("lastname"), modifiedContact.LastName);
+            driver.FindElement(By.Name("update")).Click();
+        }
+
         public bool CheckAtLeastOneContactExists()
         {
-            if(IsElementPresent(By.XPath(@"//tr//td/input[@type='checkbox'][1]")))
+            if (IsElementPresent(By.XPath(@"//tr//td/input[@type='checkbox'][1]")))
             {
                 return true;
             }
@@ -45,7 +67,7 @@ namespace AddressbookWebTests
 
         public void Edit(int contactId, ContactInfo data)
         {
-            
+
             try
             {
                 driver.FindElement(By.XPath(String.Format(@"//*[@id='maintable']/tbody/.//a[@href='edit.php?id={0}']", contactId.ToString()))).Click();
@@ -58,6 +80,6 @@ namespace AddressbookWebTests
             }
             FillinContactData(data);
         }
-        
+
     }
 }

@@ -28,6 +28,21 @@ namespace AddressbookWebTests
             app.Nav.OpenHomePage();
             app.ContactsWorker.Delete(-1);
         }
+
+        [Test]
+        public void ModifyAContact()
+        {
+            ContactInfo modifiedContact = new ContactInfo("FirstModified", "LastModified");
+            app.Nav.OpenHomePage();
+
+            if (!app.ContactsWorker.CheckAtLeastOneContactExists())
+            {
+                CreateContact();
+            }
+            app.Nav.OpenHomePage();
+            app.ContactsWorker.Modify(-1, modifiedContact);
+        }
+
         [Test]
         public void EditContact()
         {

@@ -11,11 +11,13 @@ namespace AddressbookWebTests
     {
         protected IWebDriver driver;
         protected string BaseUrl;
+        protected ApplicationManager manager;
 
         public HelperBase(ApplicationManager app)
         {
             this.driver = app.Driver;
             this.BaseUrl = app.baseURL;
+            this.manager = app;
         }
         public void TypeText(By by, string text)
         {

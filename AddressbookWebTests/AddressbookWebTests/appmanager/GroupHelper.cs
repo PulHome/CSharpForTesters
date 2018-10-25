@@ -21,6 +21,13 @@ namespace AddressbookWebTests
             driver.FindElement(By.LinkText("group page")).Click();
         }
 
+        public List<GroupInfo> GetGroupList()
+        {
+            manager.Nav.OpenGroupsPage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            return elements.Select(x => new GroupInfo(x.Text)).ToList();
+        }
+
         public void CreateFooter(String footerText)
         {
             TypeText(By.Name("group_footer"), footerText);
@@ -44,7 +51,7 @@ namespace AddressbookWebTests
             }
             else
             {
-                return;
+                driver.FindElement(By.XPath(@"(//span//input[@type='checkbox'])[" + (id + 1) + "]")).Click();
             }
             driver.FindElement(By.Name("delete")).Click();
         }
@@ -69,6 +76,21 @@ namespace AddressbookWebTests
         {
             OpenAddNewGroupMenu();
             CreateGroupWithInfo(info);
+        }
+
+        public void ModifyGroup(int id, GroupInfo newGroup)
+        {
+            if (id == -1)
+            {
+                driver.FindElement(By.XPath(@"(//span//input[@type='checkbox'])[last()]")).Click();
+            }
+            else
+            {
+                driver.FindElement(By.XPath(@"(//span//input[@type='checkbox'])[" + (id + 1) + "]")).Click();
+            }
+            driver.FindElement(By.Name("edit")).Click();
+            TypeText(By.Name("group_name"), newGroup.GroupName);
+            driver.FindElement(By.Name("update")).Click();
         }
     }
 }
