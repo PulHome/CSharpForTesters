@@ -18,14 +18,30 @@ namespace AddressbookWebTests
             CreateHeader(myGroup.HeaderText);
             CreateFooter(myGroup.FooterText);
             driver.FindElement(By.Name("submit")).Click();
+            this.groupCache = null;
             driver.FindElement(By.LinkText("group page")).Click();
         }
+        private List<GroupInfo> groupCache = null;
 
         public List<GroupInfo> GetGroupList()
         {
+            if (groupCache == null)
+            {
+                groupCache = new List<GroupInfo>();
+                manager.Nav.OpenGroupsPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+
+                groupCache = elements.Select(
+                    x => new GroupInfo(x.Text) { Id = x.FindElement(By.TagName("input")).GetAttribute("value") }
+                    ).ToList();
+            }
+            return new List<GroupInfo>(groupCache);
+        }
+
+        public int GetGroupCount()
+        {
             manager.Nav.OpenGroupsPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
-            return elements.Select(x => new GroupInfo(x.Text)).ToList();
+            return driver.FindElements(By.CssSelector("span.group")).Count;
         }
 
         public void CreateFooter(String footerText)
@@ -54,6 +70,7 @@ namespace AddressbookWebTests
                 driver.FindElement(By.XPath(@"(//span//input[@type='checkbox'])[" + (id + 1) + "]")).Click();
             }
             driver.FindElement(By.Name("delete")).Click();
+            this.groupCache = null;
         }
 
         public void CreateHeader(String headerText)
@@ -91,6 +108,7 @@ namespace AddressbookWebTests
             driver.FindElement(By.Name("edit")).Click();
             TypeText(By.Name("group_name"), newGroup.GroupName);
             driver.FindElement(By.Name("update")).Click();
+            this.groupCache = null;
         }
     }
 }

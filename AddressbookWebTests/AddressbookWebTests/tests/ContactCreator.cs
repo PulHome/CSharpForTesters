@@ -51,7 +51,7 @@ namespace AddressbookWebTests
         [Test]
         public void ModifyAContact()
         {
-            ContactInfo modifiedContact = new ContactInfo("FirstModified", "LastModified");
+            ContactInfo modifiedContact = new ContactInfo("FirstModified2", "LastModified2");
             app.Nav.OpenContactPage();
             List<ContactInfo> oldContacts = new List<ContactInfo>();
             oldContacts = app.ContactsWorker.GetContactsList();

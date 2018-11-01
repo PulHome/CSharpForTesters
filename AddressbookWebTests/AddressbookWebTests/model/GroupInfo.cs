@@ -12,6 +12,7 @@ namespace AddressbookWebTests
         public String GroupName { set; get; }
         public String HeaderText { set; get; }
         public String FooterText { set; get; }
+        public String Id { set; get; }
 
         public GroupInfo(string name = "The Big 5", string header = "SomeHeaderText", string footer = "SomeFooterText")
         {

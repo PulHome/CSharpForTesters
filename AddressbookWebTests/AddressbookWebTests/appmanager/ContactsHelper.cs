@@ -13,6 +13,7 @@ namespace AddressbookWebTests
             TypeText(By.Name("firstname"), contact.FirstName);
             TypeText(By.Name("lastname"), contact.LastName);
             driver.FindElement(By.XPath("//*[@id=\"content\"]/form/input[@type=\'submit\']")).Click();
+            this.contactsCache = null;
         }
 
 
@@ -33,13 +34,14 @@ namespace AddressbookWebTests
 
             driver.FindElement(By.XPath(@".//input[@onclick='DeleteSel()']")).Click();
             driver.SwitchTo().Alert().Accept();
+            this.contactsCache = null;
         }
 
         public void Modify(int contactId, ContactInfo modifiedContact)
         {
             if (contactId == -1)
             {
-                driver.FindElement(By.XPath("//tr[@name='entry']//input[@type='checkbox'][last()]/parent::*/following-sibling::*//a[contains(@href,'edit.php')]"))
+                driver.FindElement(By.XPath("//tr[@name='entry'][last()]//a[contains(@href,'edit.php')]"))
      .Click();
             }
             else
@@ -55,19 +57,23 @@ namespace AddressbookWebTests
             TypeText(By.Name("firstname"), modifiedContact.FirstName);
             TypeText(By.Name("lastname"), modifiedContact.LastName);
             driver.FindElement(By.Name("update")).Click();
+            this.contactsCache = null;
         }
-
+        private List<ContactInfo> contactsCache = null;
         public List<ContactInfo> GetContactsList()
         {
-            List<ContactInfo> contacts = new List<ContactInfo>();
-            manager.Nav.OpenContactPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name=entry]"));
-            foreach (IWebElement element in elements)
+            if (this.contactsCache == null)
             {
-                var items = element.FindElements(By.CssSelector("td"));
-                contacts.Add(new ContactInfo(items[2].Text, items[1].Text));
+                contactsCache = new List<ContactInfo>();
+                manager.Nav.OpenContactPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name=entry]"));
+                foreach (IWebElement element in elements)
+                {
+                    var items = element.FindElements(By.CssSelector("td"));
+                    contactsCache.Add(new ContactInfo(items[2].Text, items[1].Text));
+                }
             }
-            return contacts;
+            return new List<ContactInfo>(contactsCache);
         }
 
         public bool CheckAtLeastOneContactExists()
