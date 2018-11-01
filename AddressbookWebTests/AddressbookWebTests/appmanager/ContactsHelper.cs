@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using System;
-
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AddressbookWebTests
 {
@@ -54,6 +55,19 @@ namespace AddressbookWebTests
             TypeText(By.Name("firstname"), modifiedContact.FirstName);
             TypeText(By.Name("lastname"), modifiedContact.LastName);
             driver.FindElement(By.Name("update")).Click();
+        }
+
+        public List<ContactInfo> GetContactsList()
+        {
+            List<ContactInfo> contacts = new List<ContactInfo>();
+            manager.Nav.OpenContactPage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name=entry]"));
+            foreach (IWebElement element in elements)
+            {
+                var items = element.FindElements(By.CssSelector("td"));
+                contacts.Add(new ContactInfo(items[2].Text, items[1].Text));
+            }
+            return contacts;
         }
 
         public bool CheckAtLeastOneContactExists()

@@ -52,6 +52,10 @@ namespace AddressbookWebTests
             driver.FindElement(By.LinkText("home")).Click();
 
         }
+        public void OpenContactPage()
+        {
+            OpenHomePage();
+        }
         public void OpenUrl(String baseUrl)
         {
             driver.Navigate().GoToUrl(baseUrl);

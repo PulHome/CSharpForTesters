@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-
+using System.Collections.Generic;
 
 namespace AddressbookWebTests
 {
@@ -9,45 +9,65 @@ namespace AddressbookWebTests
         [TestCase(null)]
         public void CreateContact(ContactInfo cInf = null)
         {
+            List<ContactInfo> oldContacts = new List<ContactInfo>();
+            oldContacts = app.ContactsWorker.GetContactsList();
             if (cInf == null)
             {
                 cInf = new ContactInfo("TheFirstName", "TheLastName");
             }
+
             app.Nav.OpenNewContactPage();
             app.ContactsWorker.FillinContactData(cInf);
+            List<ContactInfo> newContacts = new List<ContactInfo>();
+            newContacts = app.ContactsWorker.GetContactsList();
+            oldContacts.Add(cInf);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
         [Test]
         public void DeleteContact()
         {
-            app.Nav.OpenHomePage();
+            app.Nav.OpenContactPage();
+            List<ContactInfo> oldContacts = new List<ContactInfo>();
+            oldContacts = app.ContactsWorker.GetContactsList();
 
             if (!app.ContactsWorker.CheckAtLeastOneContactExists())
             {
                 CreateContact();
             }
-            app.Nav.OpenHomePage();
+            app.Nav.OpenContactPage();
+
             app.ContactsWorker.Delete(-1);
+
+            List<ContactInfo> newContacts = new List<ContactInfo>();
+            newContacts = app.ContactsWorker.GetContactsList();
+            oldContacts.RemoveAt(oldContacts.Count - 1);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
 
         [Test]
         public void ModifyAContact()
         {
             ContactInfo modifiedContact = new ContactInfo("FirstModified", "LastModified");
-            app.Nav.OpenHomePage();
+            app.Nav.OpenContactPage();
+            List<ContactInfo> oldContacts = new List<ContactInfo>();
+            oldContacts = app.ContactsWorker.GetContactsList();
 
             if (!app.ContactsWorker.CheckAtLeastOneContactExists())
             {
                 CreateContact();
             }
-            app.Nav.OpenHomePage();
+            app.Nav.OpenContactPage();
             app.ContactsWorker.Modify(-1, modifiedContact);
-        }
-
-        [Test]
-        public void EditContact()
-        {
-            app.Nav.OpenHomePage();
-            app.ContactsWorker.Edit(3, new ContactInfo("TheFirstNameNEW", "TheLastNameNEW"));
+            List<ContactInfo> newContacts = new List<ContactInfo>();
+            newContacts = app.ContactsWorker.GetContactsList();
+            oldContacts[oldContacts.Count - 1] = modifiedContact;
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
     }
 }
