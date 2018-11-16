@@ -16,7 +16,7 @@ namespace AddressbookWebTests
             this.contactsCache = null;
         }
 
-        internal ContactInfo GetContactInformationFromTable(int index)
+        public ContactInfo GetContactInformationFromTable(int index)
         {
             manager.Nav.OpenHomePage();
 
@@ -26,7 +26,7 @@ namespace AddressbookWebTests
             String lastName = cells[1].Text;
             String firstName = cells[2].Text;
             String address = cells[3].Text;
-            String allPhones = cells[4].Text;
+            String allPhones = cells[5].Text;
             return new ContactInfo
             {
                 FirstName = firstName,
@@ -34,6 +34,39 @@ namespace AddressbookWebTests
                 Address = address,
                 AllPhones = allPhones
             };
+        }
+
+        public ContactInfo GetContactInformationFromDetails(int index)
+        {
+            manager.Nav.OpenHomePage();
+            InitContactDetails(index);
+
+            string textData = driver.FindElement(By.XPath(@"//div[@id='content']")).Text;
+            string[] splittedAllData = textData.Split(new[] { "\r\n\r\n" }, StringSplitOptions.None);
+
+            string[] fullNameAndAddress = splittedAllData[0].Split(new[] { "\r\n" }, StringSplitOptions.None);
+            string fullName = fullNameAndAddress[0];
+            string address = (fullNameAndAddress.Length > 1) ? fullNameAndAddress[1] : "";
+
+            string allPhones = getAllPhones(splittedAllData[1]);
+
+            return new ContactInfo()
+            {
+                FullName = fullName,
+                Address = address,
+                AllPhones = allPhones
+            };
+        }
+
+        private String getAllPhones(string phonesFromForm)
+        {
+            String retVal = "";
+            retVal = String.Join("\n",
+                phonesFromForm.Split(new[] { "\r\n" }, StringSplitOptions.None)
+                                .Select(phone => phone.Substring(phone.IndexOf(':') + 1))
+                );
+
+            return retVal;
         }
 
         public ContactInfo GetContactInformationFromEditForm(int index = 0)
@@ -107,6 +140,14 @@ namespace AddressbookWebTests
                 .FindElements(By.TagName("td"))[7]
                 .Click();
         }
+
+        private void InitContactDetails(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[6]
+                .Click();
+        }
+
 
         private List<ContactInfo> contactsCache = null;
         public List<ContactInfo> GetContactsList()

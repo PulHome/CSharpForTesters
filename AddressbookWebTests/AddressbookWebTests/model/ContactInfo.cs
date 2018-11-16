@@ -17,7 +17,7 @@ namespace AddressbookWebTests
         {
             get
             {
-                if (allPhones != null)
+                if (allPhones != null && allPhones != "")
                 {
                     return allPhones;
                 }
@@ -26,10 +26,27 @@ namespace AddressbookWebTests
             }
             set
             {
-                allPhones = value;
+                allPhones = CleanUp(value);
             }
         }
-        
+        private string fullName;
+        public string FullName
+        {
+            get
+            {
+                if (fullName != null)
+                {
+                    return fullName;
+                }
+                else
+                    return FirstName + " " + LastName;
+            }
+            set
+            {
+                fullName = value;
+            }
+        }
+
         private string CleanUp(string phone)
         {
             Regex regex = new Regex(@"[-\s()]");
@@ -50,7 +67,23 @@ namespace AddressbookWebTests
         {
             if (Object.ReferenceEquals(other, null)) return false;
             if (Object.ReferenceEquals(other, null)) return true;
-            return LastName == other.LastName && FirstName == other.FirstName;
+
+            if (FullName == "" && other.FullName == "")
+            {
+                return LastName == other.LastName && FirstName == other.FirstName;
+            }
+            else
+            {
+                if (FullName == "")
+                {
+                    FullName = FirstName + LastName;
+                }
+                if (other.FullName == "")
+                {
+                    other.FullName = other.FirstName + other.LastName;
+                }
+                return other.FullName == FullName;
+            }
         }
         public override int GetHashCode()
         {
