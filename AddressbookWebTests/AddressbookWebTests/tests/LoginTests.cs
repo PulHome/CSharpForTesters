@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace AddressbookWebTests
 {
     [TestFixture]
-    public class LoginTests : BaseTest
+    public class LoginTests : TestBase
     {
         [Test]
         public void LoginWithValidCreds()

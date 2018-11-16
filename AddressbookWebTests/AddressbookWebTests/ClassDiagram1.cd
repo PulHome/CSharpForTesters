@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="AddressbookWebTests.UserName" Collapsed="true">
+  <Class Name="AddressbookWebTests.AccountInfo" Collapsed="true">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAQAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -10,35 +10,37 @@
   <Class Name="AddressbookWebTests.GroupInfo" Collapsed="true">
     <Position X="7" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAACAAAAAAAE=</HashCode>
-      <FileName>model\GroupTestDetails.cs</FileName>
+      <HashCode>AAACAAAAAAAAAAQEgAAAAAAAgAAAAIAAAACAAAAAAAE=</HashCode>
+      <FileName>model\GroupInfo.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="AddressbookWebTests.GroupsCreator">
     <Position X="1" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAEA=</HashCode>
+      <HashCode>AAAAAAAAEAAAAAABAAAIAAAAAAAAAAAAAAAAAAAAAFI=</HashCode>
       <FileName>tests\GroupsCreator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AddressbookWebTests.ContactCreator" Collapsed="true">
     <Position X="4.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAACAAAAAAAIAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
       <FileName>tests\ContactCreator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AddressbookWebTests.ContactInfo" Collapsed="true">
     <Position X="6.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <HashCode>AAAAAEAAIAAAAIQEgACAAAAAAABAAMQCAAAEAEAAAAg=</HashCode>
       <FileName>model\ContactInfo.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="AddressbookWebTests.BaseTest" Collapsed="true">
+  <Class Name="AddressbookWebTests.TestBase" Collapsed="true">
     <Position X="2.5" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAIAAAAAAAAAAAAABAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>tests\BaseTest.cs</FileName>
     </TypeIdentifier>
   </Class>

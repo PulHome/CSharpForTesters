@@ -6,21 +6,21 @@ namespace AddressbookWebTests
     [TestFixture]
     public class ContactCreator : AuthTestBase
     {
-        [TestCase(null)]
-        public void CreateContact(ContactInfo cInf = null)
+        [Test, TestCaseSource("RandomContactDataGenerator")]
+        public void CreateContact(ContactInfo contact)
         {
             List<ContactInfo> oldContacts = new List<ContactInfo>();
             oldContacts = app.ContactsWorker.GetContactsList();
-            if (cInf == null)
+            if (contact == null)
             {
-                cInf = new ContactInfo("TheFirstName", "TheLastName");
+                contact = new ContactInfo("TheFirstName", "TheLastName");
             }
 
             app.Nav.OpenNewContactPage();
-            app.ContactsWorker.FillinContactData(cInf);
+            app.ContactsWorker.FillinContactData(contact);
             List<ContactInfo> newContacts = new List<ContactInfo>();
             newContacts = app.ContactsWorker.GetContactsList();
-            oldContacts.Add(cInf);
+            oldContacts.Add(contact);
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
@@ -34,7 +34,7 @@ namespace AddressbookWebTests
 
             if (!app.ContactsWorker.CheckAtLeastOneContactExists())
             {
-                CreateContact();
+                CreateContact(null);
             }
             app.Nav.OpenContactPage();
 
@@ -58,7 +58,7 @@ namespace AddressbookWebTests
 
             if (!app.ContactsWorker.CheckAtLeastOneContactExists())
             {
-                CreateContact();
+                CreateContact(null);
             }
             app.Nav.OpenContactPage();
             app.ContactsWorker.Modify(-1, modifiedContact);
@@ -68,6 +68,21 @@ namespace AddressbookWebTests
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+        }
+
+        public static IEnumerable<ContactInfo> RandomContactDataGenerator()
+        {
+            List<ContactInfo> contacts = new List<ContactInfo>();
+            for (int i = 0; i < 5; i++)
+            {
+                contacts.Add(new ContactInfo()
+                {
+                    FirstName = GenerateRandomString(50),
+                    LastName = GenerateRandomString(50),
+                    Address = GenerateRandomString(50)
+                });
+            }
+            return contacts;
         }
     }
 }

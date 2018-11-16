@@ -49,6 +49,10 @@ namespace AddressbookWebTests
 
         private string CleanUp(string phone)
         {
+            if (phone == null)
+            {
+                return "";
+            }
             Regex regex = new Regex(@"[-\s()]");
             return regex.Replace(phone, "");
         }

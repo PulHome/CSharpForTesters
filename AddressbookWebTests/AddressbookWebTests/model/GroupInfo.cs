@@ -32,7 +32,7 @@ namespace AddressbookWebTests
         }
         public override string ToString()
         {
-            return $"Name = {GroupName}";
+            return $"Name = {GroupName}\nHeader = {HeaderText}\nHeader = {FooterText}";
         }
 
         public int CompareTo(GroupInfo other)

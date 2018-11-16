@@ -8,11 +8,9 @@ namespace AddressbookWebTests
     [TestFixture]
     public class GroupsCreator : AuthTestBase
     {
-        [Test]
-        public void CreateAGroup()
+        [Test, TestCaseSource("RandomGropDataGenerator")]
+        public void CreateAGroup(GroupInfo newGroup)
         {
-            var newGroup = new GroupInfo("name", "header", "footer");
-
             List<GroupInfo> oldGroups = app.GroupWorker.GetGroupList();
             app.GroupWorker.OpenAddNewGroupMenu();
             app.GroupWorker.CreateGroupWithInfo(newGroup);
@@ -25,7 +23,7 @@ namespace AddressbookWebTests
             oldGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
         }
-        [Test]
+        [Test, Ignore("Known bug")]
         public void CreateAGroupWithBadName()
         {
             List<GroupInfo> oldGroups = app.GroupWorker.GetGroupList();
@@ -91,14 +89,13 @@ namespace AddressbookWebTests
             GroupInfo oldGroup = oldGroups[oldGroups.Count - 1];
             app.Nav.OpenGroupsPage();
             app.GroupWorker.ModifyGroup(-1, modifiedGroup);
-            
+
             //fast check if the number of items is the same 
             Assert.AreEqual(oldGroups.Count, app.GroupWorker.GetGroupCount());
 
             List<GroupInfo> newGroups = app.GroupWorker.GetGroupList();
             oldGroups[oldGroups.Count - 1] = modifiedGroup;
-            oldGroups.Sort();
-            newGroups.Sort();
+
             Assert.AreEqual(oldGroups, newGroups);
             foreach (var group in newGroups)
             {
@@ -108,5 +105,20 @@ namespace AddressbookWebTests
                 }
             }
         }
+        public static IEnumerable<GroupInfo> RandomGropDataGenerator()
+        {
+            List<GroupInfo> groups = new List<GroupInfo>();
+            for (int i = 0; i < 5; i++)
+            {
+                groups.Add(new GroupInfo(GenerateRandomString(30))
+                {
+                    HeaderText = GenerateRandomString(50),
+                    FooterText = GenerateRandomString(50)
+                });
+            }
+            return groups;
+        }
+
+        
     }
 }

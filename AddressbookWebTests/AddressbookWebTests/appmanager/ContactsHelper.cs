@@ -48,7 +48,7 @@ namespace AddressbookWebTests
             string fullName = fullNameAndAddress[0];
             string address = (fullNameAndAddress.Length > 1) ? fullNameAndAddress[1] : "";
 
-            string allPhones = getAllPhones(splittedAllData[1]);
+            string allPhones = splittedAllData.Length > 1 ? getAllPhones(splittedAllData[1]) : " ";
 
             return new ContactInfo()
             {
