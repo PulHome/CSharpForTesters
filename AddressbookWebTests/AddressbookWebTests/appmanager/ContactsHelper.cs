@@ -16,6 +16,47 @@ namespace AddressbookWebTests
             this.contactsCache = null;
         }
 
+        internal ContactInfo GetContactInformationFromTable(int index)
+        {
+            manager.Nav.OpenHomePage();
+
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"));
+
+            String lastName = cells[1].Text;
+            String firstName = cells[2].Text;
+            String address = cells[3].Text;
+            String allPhones = cells[4].Text;
+            return new ContactInfo
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Address = address,
+                AllPhones = allPhones
+            };
+        }
+
+        public ContactInfo GetContactInformationFromEditForm(int index = 0)
+        {
+            manager.Nav.OpenHomePage();
+            InitContactModification(index);
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            return new ContactInfo
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Address = address,
+                HomePhone = homePhone,
+                MobilePhone = mobilePhone,
+                WorkPhone = workPhone
+            };
+        }
+
 
         // Deletes Contact by Id or last one if "-1" is provided
         public void Delete(int contactId)
@@ -42,7 +83,7 @@ namespace AddressbookWebTests
             if (contactId == -1)
             {
                 driver.FindElement(By.XPath("//tr[@name='entry'][last()]//a[contains(@href,'edit.php')]"))
-     .Click();
+                                 .Click();
             }
             else
             {
@@ -59,6 +100,14 @@ namespace AddressbookWebTests
             driver.FindElement(By.Name("update")).Click();
             this.contactsCache = null;
         }
+
+        private void InitContactModification(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[7]
+                .Click();
+        }
+
         private List<ContactInfo> contactsCache = null;
         public List<ContactInfo> GetContactsList()
         {
