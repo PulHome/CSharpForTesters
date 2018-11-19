@@ -14,12 +14,14 @@ namespace AddressbookWebTests
         public String FooterText { set; get; }
         public String Id { set; get; }
 
-        public GroupInfo(string name = "The Big 5", string header = "SomeHeaderText", string footer = "SomeFooterText")
+        public GroupInfo(string name, string header = "SomeHeaderText", string footer = "SomeFooterText")
         {
             GroupName = name;
             HeaderText = header;
             FooterText = footer;
         }
+        public GroupInfo() { }
+
         public bool Equals(GroupInfo other)
         {
             if (Object.ReferenceEquals(other, null)) return false;

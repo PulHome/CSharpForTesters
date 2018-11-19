@@ -1,12 +1,15 @@
-﻿using NUnit.Framework;
+﻿using Newtonsoft.Json;
+using NUnit.Framework;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace AddressbookWebTests
 {
     [TestFixture]
     public class ContactCreator : AuthTestBase
     {
-        [Test, TestCaseSource("RandomContactDataGenerator")]
+        [Test, TestCaseSource("GropDataFromJsonFile")]
         public void CreateContact(ContactInfo contact)
         {
             List<ContactInfo> oldContacts = new List<ContactInfo>();
@@ -83,6 +86,41 @@ namespace AddressbookWebTests
                 });
             }
             return contacts;
+        }
+        public static string groupsFile = @"C:\Users\Politsyn.KL\Source\Repos\C\CSharpForTesters\AddressbookWebTests\AddressbookWebTests\contacts.json";
+        //public static string groupsFile = @"groups.csv";
+
+        public static IEnumerable<ContactInfo> GropDataFromCsvFile()
+        {
+            List<ContactInfo> contacts = new List<ContactInfo>();
+            string[] lines = File.ReadAllLines(groupsFile);
+            foreach (var line in lines)
+            {
+                string[] parts = line.Split();
+                contacts.Add(new ContactInfo()
+                {
+                    FirstName = parts[0],
+                    LastName = parts[1],
+                    Address = parts[2]
+                });
+            }
+            return contacts;
+        }
+
+        public static IEnumerable<ContactInfo> GropDataFromXmlFile()
+        {
+            StreamReader sr = new StreamReader(groupsFile);
+            var retVal = (List<ContactInfo>)(new XmlSerializer(typeof(List<ContactInfo>)).Deserialize(sr));
+            sr.Close();
+            return retVal;
+        }
+
+        public static IEnumerable<ContactInfo> GropDataFromJsonFile()
+        {
+            StreamReader sr = new StreamReader(groupsFile);
+            var retVal = JsonConvert.DeserializeObject<List<ContactInfo>>(sr.ReadToEnd());
+            sr.Close();
+            return retVal;
         }
     }
 }

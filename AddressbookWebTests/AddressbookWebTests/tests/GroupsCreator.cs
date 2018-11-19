@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 
@@ -8,7 +11,7 @@ namespace AddressbookWebTests
     [TestFixture]
     public class GroupsCreator : AuthTestBase
     {
-        [Test, TestCaseSource("RandomGropDataGenerator")]
+        [Test, TestCaseSource("GropDataFromXmlFile")]
         public void CreateAGroup(GroupInfo newGroup)
         {
             List<GroupInfo> oldGroups = app.GroupWorker.GetGroupList();
@@ -118,7 +121,40 @@ namespace AddressbookWebTests
             }
             return groups;
         }
+        public static string groupsFile = @"C:\Users\Politsyn.KL\Source\Repos\C\CSharpForTesters\AddressbookWebTests\AddressbookWebTests\groups.xml";
+        //public static string groupsFile = @"groups.csv";
 
-        
+        public static IEnumerable<GroupInfo> GropDataFromCsvFile()
+        {
+            List<GroupInfo> groups = new List<GroupInfo>();
+            string[] lines = File.ReadAllLines(groupsFile);
+            foreach (var line in lines)
+            {
+                string[] parts = line.Split();
+                groups.Add(new GroupInfo()
+                {
+                    GroupName = parts[0],
+                    HeaderText = parts[1],
+                    FooterText = parts[2]
+                });
+            }
+            return groups;
+        }
+
+        public static IEnumerable<GroupInfo> GropDataFromXmlFile()
+        {
+            StreamReader sr = new StreamReader(groupsFile);
+            var retVal = (List<GroupInfo>)(new XmlSerializer(typeof(List<GroupInfo>)).Deserialize(sr));
+            sr.Close();
+            return retVal;
+        }
+
+        public static IEnumerable<GroupInfo> GropDataFromJsonFile()
+        {
+            StreamReader sr = new StreamReader(groupsFile);
+            var retVal = JsonConvert.DeserializeObject<List<GroupInfo>>(sr.ReadToEnd());
+            sr.Close();
+            return retVal;
+        }
     }
 }
