@@ -50,6 +50,11 @@ namespace AddressbookWebTests
             }
         }
 
+        public String GetFullString()
+        {
+            return FullName + Address + AllPhones + AllEmails;
+        }
+
         private string CleanUp(string phone)
         {
             if (phone == null)

@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace AddressbookWebTests
@@ -25,7 +26,10 @@ namespace AddressbookWebTests
             //verification
             Assert.AreEqual(fromDetails, fromTable);
             Assert.AreEqual(fromDetails.Address, fromTable.Address);
-            Assert.AreEqual(fromDetails.AllPhones, fromTable.AllPhones);
+            //Assert.AreEqual(fromDetails.AllPhones, fromTable.AllPhones);
+
+            String contactDetailsAsString = app.ContactsWorker.GetContactInformationFromDetailsAsString(0);
+            Assert.AreEqual(fromTable.GetFullString(), contactDetailsAsString);
         }
     }
 }

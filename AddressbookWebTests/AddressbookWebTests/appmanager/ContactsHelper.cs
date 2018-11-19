@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace AddressbookWebTests
 {
@@ -58,6 +59,16 @@ namespace AddressbookWebTests
                 Address = address,
                 AllPhones = allPhones
             };
+        }
+        public String GetContactInformationFromDetailsAsString(int index)
+        {
+            manager.Nav.OpenHomePage();
+            InitContactDetails(index);
+
+            string textData = driver.FindElement(By.XPath(@"//div[@id='content']")).Text;
+            Regex r = new Regex(@"([MWH]:\s)|(\r)|(\n)");
+
+            return r.Replace(textData, "");
         }
 
         private String getAllPhones(string phonesFromForm)
