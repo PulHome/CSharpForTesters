@@ -121,7 +121,7 @@ namespace AddressbookWebTests
             }
             return groups;
         }
-        public static string groupsFile = @"C:\Users\Politsyn.KL\Source\Repos\C\CSharpForTesters\AddressbookWebTests\AddressbookWebTests\groups.xml";
+        public static string groupsFile = @"groups.xml";
         //public static string groupsFile = @"groups.csv";
 
         public static IEnumerable<GroupInfo> GropDataFromCsvFile()

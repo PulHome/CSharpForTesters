@@ -87,8 +87,8 @@ namespace AddressbookWebTests
             }
             return contacts;
         }
-        public static string groupsFile = @"C:\Users\Politsyn.KL\Source\Repos\C\CSharpForTesters\AddressbookWebTests\AddressbookWebTests\contacts.json";
-        //public static string groupsFile = @"groups.csv";
+        public static string groupsFile = @"contacts.json";
+
 
         public static IEnumerable<ContactInfo> GropDataFromCsvFile()
         {
