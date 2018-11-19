@@ -26,13 +26,15 @@ namespace AddressbookWebTests
             String lastName = cells[1].Text;
             String firstName = cells[2].Text;
             String address = cells[3].Text;
+            String allEmails = cells[4].Text;
             String allPhones = cells[5].Text;
             return new ContactInfo
             {
                 FirstName = firstName,
                 LastName = lastName,
                 Address = address,
-                AllPhones = allPhones
+                AllPhones = allPhones,
+                AllEmails = allEmails.Replace("\r\n", "")
             };
         }
 
@@ -79,6 +81,9 @@ namespace AddressbookWebTests
             string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
             string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
             string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string email0 = driver.FindElement(By.Name("email")).GetAttribute("value");
+            string email1 = driver.FindElement(By.Name("email2")).GetAttribute("value");
+            string email2 = driver.FindElement(By.Name("email3")).GetAttribute("value");
             return new ContactInfo
             {
                 FirstName = firstName,
@@ -86,7 +91,8 @@ namespace AddressbookWebTests
                 Address = address,
                 HomePhone = homePhone,
                 MobilePhone = mobilePhone,
-                WorkPhone = workPhone
+                WorkPhone = workPhone,
+                AllEmails = String.Concat(new[] { email0, email1, email2 })
             };
         }
 

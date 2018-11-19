@@ -35,7 +35,7 @@ namespace AddressbookWebTests
                 driver.FindElement(by);
                 return true;
             }
-            catch (NoSuchElementException ex)
+            catch (NoSuchElementException)
             {
                 return false;
             }

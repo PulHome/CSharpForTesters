@@ -12,6 +12,8 @@ namespace AddressbookWebTests
         public string MobilePhone { get; set; }
         public string WorkPhone { get; set; }
 
+        public string AllEmails { get; set; }
+
         private string allPhones;
         public string AllPhones
         {
@@ -29,6 +31,7 @@ namespace AddressbookWebTests
                 allPhones = CleanUp(value);
             }
         }
+
         private string fullName;
         public string FullName
         {
