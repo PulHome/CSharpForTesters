@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Xml.Serialization;
 
 namespace AddressbookWebTests
@@ -9,11 +10,12 @@ namespace AddressbookWebTests
     [TestFixture]
     public class ContactCreator : AuthTestBase
     {
-        [Test, TestCaseSource("GropDataFromJsonFile")]
+        [Test, TestCaseSource("RandomContactDataGenerator")]
         public void CreateContact(ContactInfo contact)
         {
             List<ContactInfo> oldContacts = new List<ContactInfo>();
-            oldContacts = app.ContactsWorker.GetContactsList();
+            oldContacts = ContactInfo.GetAllContactsFromDb();
+
             if (contact == null)
             {
                 contact = new ContactInfo("TheFirstName", "TheLastName");
@@ -21,8 +23,9 @@ namespace AddressbookWebTests
 
             app.Nav.OpenNewContactPage();
             app.ContactsWorker.FillinContactData(contact);
+
             List<ContactInfo> newContacts = new List<ContactInfo>();
-            newContacts = app.ContactsWorker.GetContactsList();
+            newContacts = ContactInfo.GetAllContactsFromDb();
             oldContacts.Add(contact);
             oldContacts.Sort();
             newContacts.Sort();
@@ -33,7 +36,8 @@ namespace AddressbookWebTests
         {
             app.Nav.OpenContactPage();
             List<ContactInfo> oldContacts = new List<ContactInfo>();
-            oldContacts = app.ContactsWorker.GetContactsList();
+            oldContacts = ContactInfo.GetAllContactsFromDb();
+            ContactInfo toBeDeleted = oldContacts[0];
 
             if (!app.ContactsWorker.CheckAtLeastOneContactExists())
             {
@@ -41,11 +45,12 @@ namespace AddressbookWebTests
             }
             app.Nav.OpenContactPage();
 
-            app.ContactsWorker.Delete(-1);
+            app.ContactsWorker.Delete(toBeDeleted);
+            oldContacts.Remove(toBeDeleted);
+            app.Nav.OpenContactPage();
 
             List<ContactInfo> newContacts = new List<ContactInfo>();
-            newContacts = app.ContactsWorker.GetContactsList();
-            oldContacts.RemoveAt(oldContacts.Count - 1);
+            newContacts = ContactInfo.GetAllContactsFromDb();
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
@@ -57,17 +62,21 @@ namespace AddressbookWebTests
             ContactInfo modifiedContact = new ContactInfo("FirstModified2", "LastModified2");
             app.Nav.OpenContactPage();
             List<ContactInfo> oldContacts = new List<ContactInfo>();
-            oldContacts = app.ContactsWorker.GetContactsList();
+            oldContacts = ContactInfo.GetAllContactsFromDb();
 
             if (!app.ContactsWorker.CheckAtLeastOneContactExists())
             {
                 CreateContact(null);
             }
             app.Nav.OpenContactPage();
-            app.ContactsWorker.Modify(-1, modifiedContact);
+            app.ContactsWorker.Modify(int.Parse(oldContacts[0].Id), modifiedContact);
+            app.Nav.OpenContactPage();
+
             List<ContactInfo> newContacts = new List<ContactInfo>();
-            newContacts = app.ContactsWorker.GetContactsList();
-            oldContacts[oldContacts.Count - 1] = modifiedContact;
+            newContacts = ContactInfo.GetAllContactsFromDb();
+            oldContacts[0].FirstName = modifiedContact.FirstName;
+            oldContacts[0].LastName = modifiedContact.LastName;
+
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
@@ -76,7 +85,7 @@ namespace AddressbookWebTests
         public static IEnumerable<ContactInfo> RandomContactDataGenerator()
         {
             List<ContactInfo> contacts = new List<ContactInfo>();
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 2; i++)
             {
                 contacts.Add(new ContactInfo()
                 {

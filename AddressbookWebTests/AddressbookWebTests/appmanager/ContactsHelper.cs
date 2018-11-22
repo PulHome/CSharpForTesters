@@ -60,6 +60,9 @@ namespace AddressbookWebTests
                 AllPhones = allPhones
             };
         }
+
+
+
         public String GetContactInformationFromDetailsAsString(int index)
         {
             manager.Nav.OpenHomePage();
@@ -128,6 +131,11 @@ namespace AddressbookWebTests
             this.contactsCache = null;
         }
 
+        public void Delete(ContactInfo toBeDeleted)
+        {
+            Delete(int.Parse(toBeDeleted.Id));
+        }
+
         public void Modify(int contactId, ContactInfo modifiedContact)
         {
             if (contactId == -1)
@@ -139,7 +147,7 @@ namespace AddressbookWebTests
             {
                 if (IsElementPresent(By.Id(contactId.ToString())))
                 {
-                    driver.FindElement(By.XPath("//tr[@name='entry']//input[@type='checkbox'][last()]/parent::*/following-sibling::*//a[contains(@href,'edit.php?id='" + contactId.ToString() + ")]"))
+                    driver.FindElement(By.XPath("//tr[@name='entry']//input[@type='checkbox'][last()]/parent::*/following-sibling::*//a[contains(@href,'edit.php?id=" + contactId.ToString() + "')]"))
      .Click();
                 }
             }

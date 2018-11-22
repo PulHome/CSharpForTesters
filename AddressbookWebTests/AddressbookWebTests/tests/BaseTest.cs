@@ -7,6 +7,7 @@ namespace AddressbookWebTests
     
     public class TestBase
     {
+        public static bool ENABLED_DETAILED_CHECKS = true;
         public static Random rnd = new Random();
 
         protected ApplicationManager app;

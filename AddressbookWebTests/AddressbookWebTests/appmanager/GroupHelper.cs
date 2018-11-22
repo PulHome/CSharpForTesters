@@ -58,7 +58,7 @@ namespace AddressbookWebTests
             return false;
         }
 
-        internal void DeleteGroup(int id)
+        public void DeleteGroup(int id)
         {
 
             if (id == -1)
@@ -73,6 +73,15 @@ namespace AddressbookWebTests
             this.groupCache = null;
         }
 
+        public void DeleteGroup(GroupInfo toBeRemoved)
+        {
+            String id = toBeRemoved.Id;
+            driver.FindElement(By.XPath(@"//span//input[@type='checkbox' and @value='" + id + "']")).Click();
+            driver.FindElement(By.Name("delete")).Click();
+            this.groupCache = null;
+        }
+
+
         public void CreateHeader(String headerText)
         {
             TypeText(By.Name("group_header"), headerText);
@@ -82,6 +91,8 @@ namespace AddressbookWebTests
         {
             TypeText(By.Name("group_name"), groupName);
         }
+
+
 
         public void OpenAddNewGroupMenu()
         {
@@ -95,18 +106,11 @@ namespace AddressbookWebTests
             CreateGroupWithInfo(info);
         }
 
-        public void ModifyGroup(int id, GroupInfo newGroup)
+        public void ModifyGroup(int id, GroupInfo toBeModified, string modifiedHeader)
         {
-            if (id == -1)
-            {
-                driver.FindElement(By.XPath(@"(//span//input[@type='checkbox'])[last()]")).Click();
-            }
-            else
-            {
-                driver.FindElement(By.XPath(@"(//span//input[@type='checkbox'])[" + (id + 1) + "]")).Click();
-            }
+            driver.FindElement(By.XPath(@"//span//input[@type='checkbox' and @value='" + toBeModified.Id + "']")).Click();
             driver.FindElement(By.Name("edit")).Click();
-            TypeText(By.Name("group_name"), newGroup.GroupName);
+            TypeText(By.Name("group_name"), modifiedHeader);
             driver.FindElement(By.Name("update")).Click();
             this.groupCache = null;
         }

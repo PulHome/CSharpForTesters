@@ -4,26 +4,26 @@ using System.IO;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 using NUnit.Framework;
-
+using System.Linq;
 
 namespace AddressbookWebTests
 {
     [TestFixture]
-    public class GroupsCreator : AuthTestBase
+    public class GroupsCreator : GroupTestBase
     {
-        [Test, TestCaseSource("GropDataFromXmlFile")]
+        [Test, TestCaseSource("RandomGropDataGenerator")]
         public void CreateAGroup(GroupInfo newGroup)
         {
-            List<GroupInfo> oldGroups = app.GroupWorker.GetGroupList();
+            List<GroupInfo> oldGroups = GroupInfo.GetAllGroupsFromDb();
             app.GroupWorker.OpenAddNewGroupMenu();
             app.GroupWorker.CreateGroupWithInfo(newGroup);
             //fast check if the number of items is the same 
             Assert.AreEqual(oldGroups.Count + 1, app.GroupWorker.GetGroupCount());
 
-            List<GroupInfo> newGroups = app.GroupWorker.GetGroupList();
+            List<GroupInfo> newGroups = GroupInfo.GetAllGroupsFromDb();
             oldGroups.Add(newGroup);
             oldGroups.Sort();
-            oldGroups.Sort();
+            newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
         }
         [Test, Ignore("Known bug")]
@@ -58,16 +58,18 @@ namespace AddressbookWebTests
                 app.GroupWorker.OpenAddNewGroupMenu();
                 app.GroupWorker.CreateGroupWithInfo(new GroupInfo("name", "header", "footer"));
             }
-            List<GroupInfo> oldGroups = app.GroupWorker.GetGroupList();
+            //List<GroupInfo> oldGroups = app.GroupWorker.GetGroupList();
+            List<GroupInfo> oldGroups = GroupInfo.GetAllGroupsFromDb();
+            GroupInfo toBeRemoved = oldGroups[0];
             String oldId = oldGroups[0].Id;
             app.Nav.OpenGroupsPage();
-            app.GroupWorker.DeleteGroup(0);
+            app.GroupWorker.DeleteGroup(toBeRemoved);
 
             //fast check if the number of items is the same 
             Assert.AreEqual(oldGroups.Count - 1, app.GroupWorker.GetGroupCount());
 
 
-            List<GroupInfo> newGroups = app.GroupWorker.GetGroupList();
+            List<GroupInfo> newGroups = GroupInfo.GetAllGroupsFromDb();
             oldGroups.RemoveAt(0);
             Assert.AreEqual(oldGroups, newGroups);
 
@@ -80,7 +82,7 @@ namespace AddressbookWebTests
         [Test]
         public void ModifyGroup()
         {
-            GroupInfo modifiedGroup = new GroupInfo("Modified");
+            String modifiedGroupName = "modifiedGroup";
 
             app.Nav.OpenGroupsPage();
             if (!app.GroupWorker.CheckAtLeastOneGropExists())
@@ -88,30 +90,31 @@ namespace AddressbookWebTests
                 app.GroupWorker.OpenAddNewGroupMenu();
                 app.GroupWorker.CreateGroupWithInfo(new GroupInfo("name", "header", "footer"));
             }
-            List<GroupInfo> oldGroups = app.GroupWorker.GetGroupList();
-            GroupInfo oldGroup = oldGroups[oldGroups.Count - 1];
+            List<GroupInfo> oldGroups = GroupInfo.GetAllGroupsFromDb();
+            GroupInfo toBeModified = oldGroups[0];
             app.Nav.OpenGroupsPage();
-            app.GroupWorker.ModifyGroup(-1, modifiedGroup);
+            app.GroupWorker.ModifyGroup(0, toBeModified, modifiedGroupName);
 
             //fast check if the number of items is the same 
             Assert.AreEqual(oldGroups.Count, app.GroupWorker.GetGroupCount());
 
-            List<GroupInfo> newGroups = app.GroupWorker.GetGroupList();
-            oldGroups[oldGroups.Count - 1] = modifiedGroup;
+            List<GroupInfo> newGroups = GroupInfo.GetAllGroupsFromDb();
+
+            oldGroups[0].GroupName = modifiedGroupName;
 
             Assert.AreEqual(oldGroups, newGroups);
             foreach (var group in newGroups)
             {
-                if (group.Id == oldGroups[oldGroups.Count - 1].Id)
+                if (group.Id == oldGroups[0].Id)
                 {
-                    Assert.AreEqual(group.GroupName, modifiedGroup.GroupName);
+                    Assert.AreEqual(group.GroupName, modifiedGroupName);
                 }
             }
         }
         public static IEnumerable<GroupInfo> RandomGropDataGenerator()
         {
             List<GroupInfo> groups = new List<GroupInfo>();
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 2; i++)
             {
                 groups.Add(new GroupInfo(GenerateRandomString(30))
                 {
@@ -155,6 +158,19 @@ namespace AddressbookWebTests
             var retVal = JsonConvert.DeserializeObject<List<GroupInfo>>(sr.ReadToEnd());
             sr.Close();
             return retVal;
+        }
+        [Test]
+        public void TestDbConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<GroupInfo> groupsFromUI = app.GroupWorker.GetGroupList();
+            DateTime finish = DateTime.Now;
+            Console.WriteLine(finish - start);
+
+            start = DateTime.Now;
+            List<GroupInfo> fromDb = GroupInfo.GetAllGroupsFromDb();
+            finish = DateTime.Now;
+            Console.WriteLine(finish - start);
         }
     }
 }

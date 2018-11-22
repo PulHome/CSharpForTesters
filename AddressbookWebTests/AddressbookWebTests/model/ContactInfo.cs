@@ -1,16 +1,39 @@
-﻿using System;
+﻿using LinqToDB.Mapping;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace AddressbookWebTests
 {
+    [Table(Name = "addressbook")]
     public class ContactInfo : IEquatable<ContactInfo>, IComparable<ContactInfo>
     {
+        [Column(Name = "firstname")]
         public string FirstName { set; get; }
+
+        [Column(Name = "lastname")]
         public string LastName { set; get; }
+
+        [Column(Name = "address")]
         public string Address { get; set; }
+
+        [Column(Name = "home")]
         public string HomePhone { get; set; }
+
+        [Column(Name = "mobile")]
         public string MobilePhone { get; set; }
+
+        [Column(Name = "work")]
         public string WorkPhone { get; set; }
+
+        [Column(Name = "id")]
+        public string Id { get; set; }
+
+
+        [Column(Name = "deprecated")]
+        public DateTime Deprecated { get; set; }
+
 
         public string AllEmails { get; set; }
 
@@ -111,5 +134,22 @@ namespace AddressbookWebTests
             if (Object.ReferenceEquals(other, null)) return 1;
             return (LastName.CompareTo(other.LastName) == 0) ? FirstName.CompareTo(other.FirstName) : LastName.CompareTo(other.LastName);
         }
+
+        public static List<ContactInfo> GetAllContactsFromDb()
+        {
+            List<ContactInfo> contactsFromDb = new List<ContactInfo>();
+            using (AddressBookDb db = new AddressBookDb())
+            {
+                //select all
+                contactsFromDb = (from contact in db.Contacts
+                                  //where contact.Deprecated == DateTime.MinValue // not working due to Date types mismatch :(
+                                  select contact
+                                  ).ToList();
+                //then filter
+                contactsFromDb = contactsFromDb.Where(c => c.Deprecated == DateTime.MinValue).ToList();
+                return contactsFromDb;
+            }
+        }
+
     }
 }
