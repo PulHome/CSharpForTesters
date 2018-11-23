@@ -162,15 +162,7 @@ namespace AddressbookWebTests
         [Test]
         public void TestDbConnectivity()
         {
-            DateTime start = DateTime.Now;
-            List<GroupInfo> groupsFromUI = app.GroupWorker.GetGroupList();
-            DateTime finish = DateTime.Now;
-            Console.WriteLine(finish - start);
-
-            start = DateTime.Now;
-            List<GroupInfo> fromDb = GroupInfo.GetAllGroupsFromDb();
-            finish = DateTime.Now;
-            Console.WriteLine(finish - start);
+            GroupInfo.GetAllGroupsFromDb()[0].GetContacts().ForEach(x => Console.WriteLine(x));
         }
     }
 }

@@ -50,6 +50,16 @@ namespace AddressbookWebTests
             if (Object.ReferenceEquals(other, null)) return 1;
             return GroupName.CompareTo(other.GroupName);
         }
+
+        public List<ContactInfo> GetContacts()
+        {
+            using (AddressBookDb db =new AddressBookDb())
+            {
+                return (from c in db.Contacts
+                        from gcr in db.GCR.Where(x => x.GroupId == Id && x.ContactId == c.Id)
+                        select c).Distinct().ToList() ;
+            }
+        }
         public static List<GroupInfo> GetAllGroupsFromDb()
         {
             List<GroupInfo> groupsFromDb = new List<GroupInfo>();

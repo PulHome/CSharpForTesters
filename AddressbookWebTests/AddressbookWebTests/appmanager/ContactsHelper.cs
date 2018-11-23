@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,52 @@ namespace AddressbookWebTests
                 AllPhones = allPhones,
                 AllEmails = allEmails.Replace("\r\n", "")
             };
+        }
+
+        public void RemoveContactFromGroup(ContactInfo cont, GroupInfo group)
+        {
+            ApplyGroupFilter(group.GroupName);
+            SelectContact(cont.Id);
+            CommitRemoval();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(2))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+
+        private void CommitRemoval()
+        {
+            driver.FindElement(By.Name("remove")).Click();
+        }
+
+        public void AddContactToGroup(ContactInfo cont, GroupInfo group)
+        {
+            manager.Nav.OpenHomePage();
+            ApplyGroupFilter("[all]");
+            SelectContact(cont.Id);
+            SelectGroupToAdd(group.GroupName);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(2))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+
+        private void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+        private void SelectGroupToAdd(string groupName)
+        {
+            driver.FindElement(By.XPath(@".//select[@name='to_group']/option[text()='" + groupName + @"']")).Click();
+        }
+
+        private void SelectContact(string contactId)
+        {
+
+            driver.FindElement(By.Id(contactId.ToString())).Click();
+        }
+
+        private void ApplyGroupFilter(String groupName = "[all]")
+        {
+            driver.FindElement(By.XPath(".//select[@name='group']/option[text()='" + groupName + "']")).Click();
         }
 
         public ContactInfo GetContactInformationFromDetails(int index)

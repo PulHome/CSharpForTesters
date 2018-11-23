@@ -10,29 +10,30 @@
   <Class Name="AddressbookWebTests.GroupInfo" Collapsed="true">
     <Position X="7" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAQEgAAAAAAAgAAAAIAAAACAAAAAAAE=</HashCode>
+      <HashCode>AAACAABAAAAAAAQEgAAAAAAAgAAAAIAAAACAAABAAAE=</HashCode>
       <FileName>model\GroupInfo.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="AddressbookWebTests.GroupsCreator">
+  <Class Name="AddressbookWebTests.AddingContactToGropsTests">
     <Position X="1" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAEAAAAAABAAAIAAAAAAAAAAAAAAAAAAAAAFI=</HashCode>
-      <FileName>tests\GroupsCreator.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>tests\AddingContactToGropsTests.cs</FileName>
+      <NewMemberFileName>tests\GroupsCreator.cs</NewMemberFileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AddressbookWebTests.ContactCreator" Collapsed="true">
     <Position X="4.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAACAAAAAAAIAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAIAACAAAAAAAIQBAAAAAAAAAAAAABAAAAAAAgAAA=</HashCode>
       <FileName>tests\ContactCreator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AddressbookWebTests.ContactInfo" Collapsed="true">
     <Position X="6.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAIAAAAIQEgACAAAAAAABAAMQCAAAEAEAAAAg=</HashCode>
+      <HashCode>AAAiAEAAIAAAAIQEgACAAAAAAAFAAMQCBAAFAEAAAAg=</HashCode>
       <FileName>model\ContactInfo.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -40,7 +41,7 @@
   <Class Name="AddressbookWebTests.TestBase" Collapsed="true">
     <Position X="2.5" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAEAAAAIAAAAAAAAAAAAAAAAAAAABAAACAABAAAAAA=</HashCode>
       <FileName>tests\BaseTest.cs</FileName>
     </TypeIdentifier>
   </Class>

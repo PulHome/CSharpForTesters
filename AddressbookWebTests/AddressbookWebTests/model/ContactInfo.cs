@@ -27,7 +27,7 @@ namespace AddressbookWebTests
         [Column(Name = "work")]
         public string WorkPhone { get; set; }
 
-        [Column(Name = "id")]
+        [Column(Name = "id"), PrimaryKey]
         public string Id { get; set; }
 
 
